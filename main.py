@@ -27,6 +27,16 @@ def get_weather():
   weather = res['data']['list'][0]
   return weather['weather'], math.floor(weather['temp'])
 
+def get_tips():
+  url = "https://devapi.qweather.com/v7/indices/1d?"
+  params = {"location": "120.13,36.55",
+            "key": "d999a452f7eb4718b3c237d9778f4a7f",
+            "type": "3"
+           }
+  response = requests.get(url, params).json()
+  tips = response['daily']['text']
+  return tips
+    
 def get_count():
   delta = today - datetime.strptime(start_date, "%Y-%m-%d")
   return delta.days
@@ -51,6 +61,6 @@ client = WeChatClient(app_id, app_secret)
 
 wm = WeChatMessage(client)
 wea, temperature = get_weather()
-data = {"time":{"value":"%s"%date.today()+"  "+"%s"%get_week(), "color":get_random_color()},"city":{"value":"青岛", "color":get_random_color()},"weather":{"value":wea, "color":get_random_color()},"temperature":{"value":temperature, "color":get_random_color()},"love_days":{"value":get_count(), "color":get_random_color()},"birthday_left":{"value":"距离小可爱的生日还有"+"%d"%get_birthday()+"天", "color":get_random_color()},"words":{"value":get_words(), "color":get_random_color()}}
+data = {"time":{"value":"%s"%date.today()+"  "+"%s"%get_week(), "color":get_random_color()},"city":{"value":"青岛", "color":get_random_color()},"weather":{"value":wea, "color":get_random_color()},"temperature":{"value":temperature, "color":get_random_color()},"tips":{"value":get_tips(),"color":get_random_color()},"love_days":{"value":get_count(), "color":get_random_color()},"birthday_left":{"value":"距离小可爱的生日还有"+"%d"%get_birthday()+"天", "color":get_random_color()},"words":{"value":get_words(), "color":get_random_color()}}
 res = wm.send_template(user_id, template_id, data)
 print(res)
