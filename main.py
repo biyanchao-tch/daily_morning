@@ -19,7 +19,7 @@ template_id = os.environ["TEMPLATE_ID"]
 
 def get_time():
   week_list = ["星期一","星期二","星期三","星期四","星期五","星期六","星期日"]
-  return date.time.today()+week_list[datetime.now().weekday()]
+  return datetime.today()+week_list[datetime.now().weekday()]
 
 def get_weather():
   url = "http://autodev.openspeech.cn/csp/api/v2.1/weather?openId=aiuicus&clientType=android&sign=android&city=" + city
