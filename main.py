@@ -34,7 +34,7 @@ def get_tips():
             "type": "3"
            }
   response = requests.get(url, params).json()
-  tips = response['daily']['text']
+  tips = response['daily'][0]['text']
   return tips
     
 def get_count():
@@ -51,7 +51,7 @@ def get_words():
   words = requests.get("https://api.shadiao.pro/chp")
   if words.status_code != 200:
     return get_words()
-  return words.json()['data'][0]['text']
+  return words.json()['data']['text']
 
 def get_random_color():
   return "#%06x" % random.randint(0, 0xFFFFFF)
